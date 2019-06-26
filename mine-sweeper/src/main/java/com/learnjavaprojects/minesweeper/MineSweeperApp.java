@@ -4,7 +4,7 @@ package com.learnjavaprojects.minesweeper;
  * Hello world!
  *
  */
-public class App {
+public class MineSweeperApp {
 
 	public static void main( String[] args ) {
 

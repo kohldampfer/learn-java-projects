@@ -27,10 +27,24 @@ public class MineSweeperWriterConsole implements IMineSweeperWriter {
 
 	public void writeField() {
 		int size = this.mineSweeperField.getSize();
+		int fieldStatus = -1;
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				System.out.print(this.mineSweeperField.getMine(i, j) + "|");
+				fieldStatus = this.mineSweeperField.getMine(i, j);
+				switch (fieldStatus) {
+					case MineSweeperField.CHECKED_FIELD:
+						// TODO: get number of mines around this field
+						System.out.print("0");
+						break;
+					case MineSweeperField.ASSUME_MINE:
+						System.out.print("!");
+						break;
+					default:
+						System.out.print("X");
+						break;
+				}
+				System.out.print("|");
 			}
 			System.out.println();
 		}

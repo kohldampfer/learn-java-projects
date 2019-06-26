@@ -10,9 +10,13 @@ public class MineSweeperField {
 	// minesweeper field where one can put mines on it
 	private int [] [] field;
 
+	public static final int NO_MINE = 0;
+
 	public static final int WITH_MINE = 1;
 
-	public static final int NO_MINE = 0;
+	public static final int CHECKED_FIELD = 2;
+
+	public static final int ASSUME_MINE = 3;
 
 	// Constructor
 	public MineSweeperField(int size) {
@@ -32,8 +36,7 @@ public class MineSweeperField {
 		}
 	}
 
-	// this function sets a mine on a place in the field
-	public void setMine(int x, int y) {
+	public void setFieldStatus(int x, int y, int status) {
 		if (x < 0) {
 			throw new IllegalArgumentException("Cannot put a mine on a field where x is smaller than 0.");
 		}
@@ -50,7 +53,26 @@ public class MineSweeperField {
 			throw new IllegalArgumentException("Cannot put a mine on a field where y is bigger than the field size.");
 		}
 
-		this.field[x][y] = MineSweeperField.WITH_MINE;
+		this.field[x][y] = status;
+	}
+
+	// this function sets a mine on a place in the field
+	public void setMine(int x, int y) {
+		this.setFieldStatus(x, y, MineSweeperField.WITH_MINE);
+	}
+
+	public void checkField(int x, int y) throws StepOnMineException {
+		int fieldStatus = this.getMine(x, y);
+
+		if (fieldStatus != MineSweeperField.WITH_MINE) {
+			this.setFieldStatus(x, y, MineSweeperField.CHECKED_FIELD);
+		} else {
+			throw new StepOnMineException("You found a mine at (" + (x+1) + ", " + (y+1) + ")");
+		}
+	}
+
+	public void assumeMine(int x, int y) {
+		this.setFieldStatus(x, y, MineSweeperField.ASSUME_MINE);
 	}
 
 	public void setMines(int number) {
