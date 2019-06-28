@@ -29,13 +29,14 @@ public class MineSweeperWriterConsole implements IMineSweeperWriter {
 		int size = this.mineSweeperField.getSize();
 		int fieldStatus = -1;
 
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int j = 0; j < size; j++) {
+			System.out.print("|");
+			for (int i = 0; i < size; i++) {
 				fieldStatus = this.mineSweeperField.getMine(i, j);
 				switch (fieldStatus) {
 					case MineSweeperField.CHECKED_FIELD:
-						// TODO: get number of mines around this field
-						System.out.print("0");
+						int mineNumber = this.getNumberAroundField(i, j, size);
+						System.out.print(mineNumber);
 						break;
 					case MineSweeperField.ASSUME_MINE:
 						System.out.print("!");
@@ -48,6 +49,46 @@ public class MineSweeperWriterConsole implements IMineSweeperWriter {
 			}
 			System.out.println();
 		}
+	}
+
+	public void printRealField() {
+		int size = this.mineSweeperField.getSize();
+		int fieldStatus = -1;
+
+		for (int j = 0; j < size; j++) {
+			System.out.print("|");
+			for (int i = 0; i < size; i++) {
+				fieldStatus = this.mineSweeperField.getMine(i, j);
+				switch (fieldStatus) {
+					case MineSweeperField.WITH_MINE:
+						System.out.print("!");
+						break;
+					default:
+						int mineNumber = this.getNumberAroundField(i, j, size);
+						System.out.print(mineNumber);
+						break;
+				}
+				System.out.print("|");
+			}
+			System.out.println();
+		}
+	}
+
+	protected int getNumberAroundField(int x, int y, int fieldSize) {
+		int number = 0;
+
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if ((x + i >= 0) && (x + i < fieldSize) && (y + j >= 0) && (y + j < fieldSize)) {
+					int tempFieldStatus = this.mineSweeperField.getMine(x + i, y + j);
+					if (tempFieldStatus == MineSweeperField.WITH_MINE) {
+						number += 1;
+					}
+				}
+			}
+		}
+
+		return number;
 	}
 
 }
