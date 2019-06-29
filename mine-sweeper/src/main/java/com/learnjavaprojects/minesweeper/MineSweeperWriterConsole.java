@@ -65,7 +65,12 @@ public class MineSweeperWriterConsole implements IMineSweeperWriter {
 						break;
 					default:
 						int mineNumber = this.getNumberAroundField(i, j, size);
-						System.out.print(mineNumber);
+
+						if (mineNumber == 0) {
+							System.out.print(" ");
+						} else {
+							System.out.print(mineNumber);
+						}
 						break;
 				}
 				System.out.print("|");
